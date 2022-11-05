@@ -51,6 +51,6 @@ async def text_to_speech(*args, **kwargs):
 
 @app.get("/text2speech")
 async def create(prompt: str = "", gender: str = "neutral", language_code="en-US"):
-    logger.info(f"creating image using the following prompt: {repr(prompt)}")
+    logger.info(f"text2speec using the following prompt: {repr(prompt)}")
     result = await text_to_speech(prompt=prompt, gender=gender, language_code=language_code)
     return result

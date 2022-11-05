@@ -10,7 +10,7 @@ import os
 def dalle_create_image_with_auth(api_key, **kwargs):
     openai.api_key = api_key
     return openai.Image.create(
-        #response_format='b64_json',
+        response_format='b64_json',
         **kwargs
     )
 
@@ -25,10 +25,14 @@ async def dalle_create_image(*args, **kwargs):
             )
         )
 
-@app.get('/image')
-async def create_image_route(prompt: str = '', count: int = 1, size: int = 1):
-    logger.info(f'creating image using the following prompt: {repr(prompt)}')
-    size = ['256x256', '512x512', '1024x1024'][min(max(0, size-1), 2)]
+@app.get('/text2image')
+async def text2image_route(prompt: str = '', count: int = 1, size: int = 1):
+    logger.info(f'text to image using the following prompt: {repr(prompt)}')
+    size = [
+        '256x256',
+        '512x512',
+        '1024x1024'
+    ][min(max(0, size-1), 2)]
     result = await dalle_create_image(
         prompt=prompt,
         size=size,
