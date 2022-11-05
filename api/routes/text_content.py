@@ -5,7 +5,6 @@ import asyncio
 import concurrent
 import functools
 import os
-import logging
 
 
 def strip_non_alnum_from_text(text):
@@ -43,13 +42,13 @@ def generate_text_content(api_key, **kwargs):
             echo=False,
         )
         res_dict = response.to_dict()
-        logging.info(f"Completion API completed with: {res_dict}")
+        logger.info(f"Completion API completed with: {res_dict}")
         if res_dict["choices"]:
             res_text = res_dict["choices"][0].to_dict()["text"].strip()
             return strip_non_alnum_from_text(res_text)
         return None
     except:
-        logging.exception("Completion api failed:")
+        logger.exception("Completion api failed:")
         return None
 
 
@@ -62,6 +61,6 @@ async def create_text(*args, **kwargs):
 
 @app.get("/textcontent")
 async def create(prompt: str = ""):
-    logging.info(f"creating text using the following prompt: {repr(prompt)}")
+    logger.info(f"creating text using the following prompt: {repr(prompt)}")
     result = await create_text(prompt=prompt)
     return result
