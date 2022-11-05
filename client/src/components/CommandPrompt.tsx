@@ -10,17 +10,27 @@ type Command = {
   action: (prompt: string) => Promise<void>;
 };
 
+const languageMapper: any = {
+  english: 'en-US',
+  french: 'fr-FR',
+  german: 'de-DE',
+  spanish: 'es-US',
+};
+
 export default function CommandPrompt() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const text = useStore((s) => s.text);
   const loading = useStore((s) => s.loading);
   const player = useStore((s) => s.player);
+  const audio = useStore((s) => s.audio);
   const setBackColor = useStore((s) => s.setBackColor);
   const setWallpaper = useStore((s) => s.setWallpaper);
   const setText = useStore((s) => s.setText);
+  const setAudio = useStore((s) => s.setAudio);
   const setReady = useStore((s) => s.setReady);
   const setLoading = useStore((s) => s.setLoading);
+  const clear = useStore((s) => s.clear);
 
   const commands: Command[] = [
     {
@@ -59,11 +69,27 @@ export default function CommandPrompt() {
           ${prompt}
 
         `;
-          return api
-            .getTextContent({ prompt: fullPrompt })
-            .then(({ result }) => {
-              setText(result);
-            });
+
+          const { result } = await api.getTextContent({ prompt: fullPrompt });
+          setText(result);
+
+          if (prompt.includes('translate') && audio) {
+            const language = getLanguageFromPrompt(prompt);
+
+            await api
+              .getAudioFromText({
+                prompt: result,
+                gender: audio.gender,
+                language,
+              })
+              .then(({ result }) => {
+                setAudio({
+                  base64: `data:audio/wav;base64,${result}`,
+                  gender: audio.gender,
+                  language,
+                });
+              });
+          }
         }
       },
     },
@@ -84,15 +110,25 @@ export default function CommandPrompt() {
     {
       match: (cmd) => cmd.includes('voice'),
       action: async (prompt) => {
-        console.log('> Create voice-over', prompt);
-      },
-    },
-    // Translate: <language>
-    // - translate text and audio. Match when cmd contains translate
-    {
-      match: (cmd) => cmd.includes('translate'),
-      action: async (prompt) => {
-        console.log('> Translate', prompt);
+        if (prompt && text) {
+          const gender = prompt.includes('female')
+            ? 'female'
+            : prompt.includes('male')
+            ? 'male'
+            : 'neutral';
+
+          const language = getLanguageFromPrompt(prompt);
+
+          return api
+            .getAudioFromText({ prompt: text, gender, language })
+            .then(({ result }) => {
+              setAudio({
+                base64: `data:audio/wav;base64,${result}`,
+                gender,
+                language,
+              });
+            });
+        }
       },
     },
     // Clear: text
@@ -109,8 +145,8 @@ export default function CommandPrompt() {
     // ⁃ delete all content
     {
       match: (cmd) => cmd.includes('delete'),
-      action: async (prompt) => {
-        console.log('> Delete all content', prompt);
+      action: async () => {
+        clear();
       },
     },
     // Set color: <text>
@@ -200,6 +236,19 @@ export default function CommandPrompt() {
       </DialogPrimitive.Portal>
     </DialogPrimitive.Root>
   );
+}
+
+function getLanguageFromPrompt(prompt: string) {
+  const parts = prompt.split(' ');
+  let language = 'en-US';
+
+  parts.forEach((part) => {
+    if (languageMapper[part]) {
+      language = languageMapper[part];
+    }
+  });
+
+  return language;
 }
 
 const show = keyframes({

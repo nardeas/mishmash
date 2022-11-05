@@ -7,17 +7,14 @@ async function get(endpoint: string) {
   return json;
 }
 
-type Gender = 'neutral' | 'male' | 'female';
-type Language = 'en-US' | 'fr-FR' | 'de-DE';
-
 export function getAudioFromText({
   prompt,
   gender = 'neutral',
   language = 'en-US',
 }: {
   prompt: string;
-  gender?: Gender;
-  language?: Language;
+  gender?: string;
+  language?: string;
 }) {
   const p = encodeURIComponent(prompt);
   const g = encodeURIComponent(gender);

@@ -5,6 +5,8 @@ const MAX_TEXT_LENGTH = 250;
 export default function VideoText() {
   const text = useStore((s) => s.text);
 
+  if (!text) return null;
+
   return (
     <p
       style={{

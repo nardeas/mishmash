@@ -16,10 +16,12 @@ import {
 import PhoneFront from './PhoneFront';
 import PhoneBack from './PhoneBack';
 import VideoText from '../VideoText';
+import { useStore } from '../../store';
 
 export default function Scene() {
   const { width, height, durationInFrames, fps } = useVideoConfig();
   const frame = useCurrentFrame();
+  const audio = useStore((s) => s.audio);
 
   const opacity = interpolate(
     frame,
@@ -79,7 +81,7 @@ export default function Scene() {
         </AbsoluteFill>
       </Sequence>
 
-      {/* <Audio src={`data:audio/wav;base64,${testAudioBase64}`} /> */}
+      {audio !== null && <Audio src={audio.base64} />}
     </AbsoluteFill>
   );
 }
