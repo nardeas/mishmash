@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { useGLTF } from '@react-three/drei';
 
 import App from './App';
 import './global.css';
@@ -9,3 +10,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <App />
   </React.StrictMode>,
 );
+
+useGLTF.preload('/scene.gltf');

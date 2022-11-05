@@ -164,5 +164,3 @@ function usePhoneModelEffects() {
     }
   }, [wallpaper]); // eslint-disable-line react-hooks/exhaustive-deps
 }
-
-useGLTF.preload('/scene.gltf');
