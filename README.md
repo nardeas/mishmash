@@ -4,11 +4,20 @@
 
 ## Development
 
-**Create a virtualenv with python >=3.9.X**
-> pyenv virtualenv 3.9.5 \<name of the virtualenv\>
+**Create a virtualenv with python >=3.10.1**
+```
+pyenv install 3.10.1
+pyenv virtualenv 3.10.1 <name of the virtualenv>
+```
 
-**Install project requirements**
-> pip install -r requirements.txt
+**Install project packages**
+```
+pip install -r requirements.txt
+pip install -e .
+```
 
-**Install project as package**
-> pip install -e .
+**Run api**
+```
+uvicorn api:app --reload
+uvicorn api:app
+```
