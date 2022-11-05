@@ -1,0 +1,6 @@
+{
+  "extends": "@remotion",
+  "rules": {
+    "react/jsx-no-bind": "off"
+  }
+}
