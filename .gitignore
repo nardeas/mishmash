@@ -1,0 +1,12 @@
+/test.ipynb
+/test.py
+__pycache__
+.pytest_cache/
+.ipynb*
+.coverage
+.DS_Store
+*.egg-info/
+*.pyc
+*.o
+*.so
+*.csv
