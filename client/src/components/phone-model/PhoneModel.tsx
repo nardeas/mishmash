@@ -1,7 +1,8 @@
-import { useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { useGLTF } from '@react-three/drei';
-import { usePhoneModelEffects } from './hooks';
 import { Euler, Vector3 } from '@react-three/fiber';
+import { TextureLoader } from 'three';
+import { useStore } from '../../store';
 
 export default function PhoneModel({
   scale,
@@ -21,7 +22,7 @@ export default function PhoneModel({
 
   return (
     <group ref={group} dispose={null}>
-      <group scale={scale} rotation={rotation} position={position} >
+      <group scale={scale} rotation={rotation} position={position}>
         <group rotation={[0, 0, 0]} scale={0.01}>
           <group scale={100}>
             <mesh
@@ -145,6 +146,23 @@ export default function PhoneModel({
       </group>
     </group>
   );
+}
+
+function usePhoneModelEffects() {
+  const backColor = useStore((s) => s.backColor);
+  const wallpaper = useStore((s) => s.wallpaper);
+  const gltf = useGLTF('/scene.gltf');
+  const { materials } = gltf as any;
+
+  useLayoutEffect(() => {
+    materials.Body.color.set(backColor);
+  }, [backColor]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useLayoutEffect(() => {
+    if (wallpaper) {
+      materials.Wallpaper.map = new TextureLoader().load(wallpaper);
+    }
+  }, [wallpaper]); // eslint-disable-line react-hooks/exhaustive-deps
 }
 
 useGLTF.preload('/scene.gltf');

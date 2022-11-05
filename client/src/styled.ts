@@ -3,7 +3,7 @@ import { createStitches } from '@stitches/react';
 export const { styled, css, keyframes } = createStitches({
   theme: {
     colors: {
-      background: '#0000',
+      background: '#05070f',
       elevated: '#1c1c1c',
       backdrop: 'rgba(0, 0, 0, 0.5)',
       text: '#fff',

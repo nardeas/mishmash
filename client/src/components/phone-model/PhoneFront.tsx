@@ -1,14 +1,11 @@
 import { spring } from 'remotion';
 import { interpolate, useCurrentFrame, useVideoConfig } from 'remotion';
 
-import { usePhoneModelEffects } from './hooks';
 import PhoneModel from './PhoneModel';
 
 export default function PhoneFront() {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
-
-  usePhoneModelEffects();
 
   const entranceAnimation = spring({
     frame,
@@ -18,7 +15,7 @@ export default function PhoneFront() {
   });
 
   const revealAnimation = spring({
-    frame: frame - durationInFrames / 4 - 10,
+    frame: frame - durationInFrames / 4,
     fps,
     config: { damping: 200, mass: 3 },
     durationInFrames: 50,
@@ -31,7 +28,7 @@ export default function PhoneFront() {
   );
 
   const translateY = interpolate(entranceAnimation, [0, 1], [-4, 0]);
-  const translateX = interpolate(revealAnimation, [0, 1], [0, -0.7]);
+  const translateX = interpolate(revealAnimation, [0, 1], [0, -0.8]);
 
   return (
     <PhoneModel

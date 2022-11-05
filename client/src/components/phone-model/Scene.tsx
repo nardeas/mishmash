@@ -2,13 +2,48 @@ import { Suspense, useEffect } from 'react';
 import { ThreeCanvas } from '@remotion/three';
 import { AdaptiveDpr, AdaptiveEvents, Environment } from '@react-three/drei';
 import { useThree } from '@react-three/fiber';
-import { AbsoluteFill, Sequence, useVideoConfig } from 'remotion';
+
+import {
+  AbsoluteFill,
+  Audio,
+  interpolate,
+  Sequence,
+  spring,
+  useCurrentFrame,
+  useVideoConfig,
+} from 'remotion';
 
 import PhoneFront from './PhoneFront';
 import PhoneBack from './PhoneBack';
+import VideoText from '../VideoText';
 
 export default function Scene() {
-  const { width, height } = useVideoConfig();
+  const { width, height, durationInFrames, fps } = useVideoConfig();
+  const frame = useCurrentFrame();
+
+  const opacity = interpolate(
+    frame,
+    [
+      durationInFrames / 4 + 10,
+      durationInFrames / 4 + 60,
+      durationInFrames - 20,
+      durationInFrames - 10,
+    ],
+    [0, 1, 1, 0],
+    {
+      extrapolateLeft: 'clamp',
+      extrapolateRight: 'clamp',
+    },
+  );
+
+  const textAnimation = spring({
+    frame: frame - (durationInFrames / 4 + 10),
+    fps,
+    config: { damping: 200, mass: 3 },
+    durationInFrames: 10,
+  });
+
+  const translateX = interpolate(textAnimation, [0, 1], [-0.2, 0]);
 
   return (
     <AbsoluteFill style={container}>
@@ -20,16 +55,31 @@ export default function Scene() {
           <PhoneBack />
           <Camera />
         </Suspense>
-        <Environment preset="night" />
+        <Environment preset="studio" />
         <AdaptiveDpr pixelated />
         <AdaptiveEvents />
       </ThreeCanvas>
 
-      <Sequence from={5}>
-        <AbsoluteFill>
-          <h1>Hello world</h1>
+      <Sequence>
+        <AbsoluteFill
+          style={{
+            transform: `translateX(${translateX * 100}%)`,
+            opacity,
+            left: '52%',
+            width: '50%',
+            height: '100%',
+            paddingLeft: 72,
+            paddingRight: 64,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <VideoText />
         </AbsoluteFill>
       </Sequence>
+
+      {/* <Audio src={`data:audio/wav;base64,${testAudioBase64}`} /> */}
     </AbsoluteFill>
   );
 }
@@ -50,7 +100,7 @@ function Camera() {
 }
 
 const container: React.CSSProperties = {
-  backgroundColor: '#000',
-  border: '1px solid #222',
+  background: 'linear-gradient(to bottom, #060606, #000000)',
   borderRadius: '16px',
+  border: '1px solid rgba(255, 255, 255, 0.03)',
 };
