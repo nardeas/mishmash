@@ -52,11 +52,10 @@ async def text_to_speech(*args, **kwargs):
 
 class LangugeCode(str, Enum):
     ENG_US = "en-US"
-    ARABIC = "ar-XA"
     FRANCE = "fr-FR"
     GERMANNY = "de-DE"
-    HINDI = "hi-IN"
-    JAPANESE = "ja-JP"
+    SPANISH = "es-US"
+    DUTCH = "nl-NL-"
 
 
 class Gender(str, Enum):
