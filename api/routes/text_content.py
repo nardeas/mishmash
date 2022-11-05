@@ -7,8 +7,6 @@ import functools
 import os
 import logging
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
 
 def strip_non_alnum_from_text(text):
     # avoid outputs like: ':\n\n\n\nNew iPhone: Now with 100% more battery life!'
