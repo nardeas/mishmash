@@ -1,2 +1,2 @@
 from api.routes.test import *
-# TODO: route imports
+from api.routes.dalle import *
