@@ -15,6 +15,7 @@ export default function CommandPrompt() {
   const [value, setValue] = useState('');
   const text = useStore((s) => s.text);
   const loading = useStore((s) => s.loading);
+  const player = useStore((s) => s.player);
   const setBackColor = useStore((s) => s.setBackColor);
   const setWallpaper = useStore((s) => s.setWallpaper);
   const setText = useStore((s) => s.setText);
@@ -22,6 +23,22 @@ export default function CommandPrompt() {
   const setLoading = useStore((s) => s.setLoading);
 
   const commands: Command[] = [
+    {
+      match: (cmd) => cmd.includes('pause'),
+      action: async () => {
+        if (player?.isPlaying()) {
+          player?.pause();
+        }
+      },
+    },
+    {
+      match: (cmd) => cmd.includes('play'),
+      action: async () => {
+        if (!player?.isPlaying()) {
+          player?.play();
+        }
+      },
+    },
     // Create <adjective/None> video template: <text>
     // - match template in cmd
     {
@@ -34,26 +51,32 @@ export default function CommandPrompt() {
     // ⁃ create text. Match when cmd contains text
     {
       match: (cmd) => cmd.includes('text'),
-      action: (prompt) => {
-        const fullPrompt = `
+      action: async (prompt) => {
+        if (prompt) {
+          const fullPrompt = `
           ${text}
 
           ${prompt}
 
         `;
-        return api.getTextContent({ prompt: fullPrompt }).then(({ result }) => {
-          setText(result);
-        });
+          return api
+            .getTextContent({ prompt: fullPrompt })
+            .then(({ result }) => {
+              setText(result);
+            });
+        }
       },
     },
     // Create <adjective / None> image: <prompt>
     // ⁃ create image. Match when cmd contains image
     {
       match: (cmd) => cmd.includes('image'),
-      action: (prompt) => {
-        return api.getImageFromText({ prompt }).then(({ result }) => {
-          setWallpaper(`data:image/png;base64,${result[0]}`);
-        });
+      action: async (prompt) => {
+        if (prompt) {
+          return api.getImageFromText({ prompt }).then(({ result }) => {
+            setWallpaper(`data:image/png;base64,${result[0]}`);
+          });
+        }
       },
     },
     // Create voice-over: <gender>
@@ -93,16 +116,14 @@ export default function CommandPrompt() {
     // Set color: <text>
     // ⁃ change color of the phone: match cmd with color and select color based on apple or coke
     {
-      match: (cmd) => cmd.includes('set color'),
+      match: (cmd) => cmd.includes('color'),
       action: async (prompt) => {
-        if (prompt.includes('apple')) {
-          setBackColor('#515c63');
-        } else if (
-          prompt.includes('coke') ||
-          prompt.includes('cola') ||
-          prompt.includes('coca')
-        ) {
-          setBackColor('#bb0107');
+        if (prompt.includes('space gray')) {
+          setBackColor('#364047');
+        } else if (prompt.includes('peach')) {
+          setBackColor('#ac700f');
+        } else if (prompt.includes('pink')) {
+          setBackColor('#9f2c84');
         }
       },
     },
@@ -114,6 +135,7 @@ export default function CommandPrompt() {
         setOpen((o) => !o);
       } else if (e.key === 'Escape') {
         setOpen(false);
+        setValue('');
       }
     };
 
@@ -132,6 +154,7 @@ export default function CommandPrompt() {
       const p = prompt ? prompt.trim().toLowerCase() : '';
       await command.action(p);
       setLoading(false);
+      player?.seekTo(0);
     }
 
     setOpen(false);
