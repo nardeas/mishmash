@@ -16,8 +16,8 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-**Run api**
+**Run api server**
 ```
-uvicorn api:app --reload
-uvicorn api:app
+OPENAPI_KEY= uvicorn api:app --reload
+OPENAPI_KEY= uvicorn api:app
 ```
