@@ -11,3 +11,4 @@ __pycache__
 *.so
 *.csv
 .mypy_cache/
+.python-version
