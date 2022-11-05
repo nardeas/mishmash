@@ -1,7 +1,11 @@
-import os
-import logging
+from api.app import *
 
 import openai
+import asyncio
+import concurrent
+import functools
+import os
+import logging
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -16,7 +20,7 @@ def strip_non_alnum_from_text(text):
     return text[first_alnum_character:].strip()
 
 
-def generate_text_content(prompt):
+def generate_text_content(api_key, **kwargs):
     """
     Inlcude previous prompt input separeted by \n\n
 
@@ -28,9 +32,10 @@ def generate_text_content(prompt):
     stylish. This phone is sure to revolutionize the smartphone industry.\n\ntranslate to spanish"
     """
     try:
+        openai.api_key = api_key
         response = openai.Completion.create(
             model="text-davinci-002",
-            prompt=prompt,
+            prompt=kwargs["prompt"],
             max_tokens=256,
             temperature=0.7,
             top_p=1,
@@ -49,3 +54,16 @@ def generate_text_content(prompt):
         logging.exception("Completion api failed:")
         return None
 
+
+async def create_text(*args, **kwargs):
+    with concurrent.futures.ProcessPoolExecutor(max_workers=1) as exc:
+        return await asyncio.get_running_loop().run_in_executor(
+            exc, functools.partial(generate_text_content, os.environ["OPENAI_KEY"], **kwargs)
+        )
+
+
+@app.get("/image")
+async def create_image_route(prompt: str = ""):
+    logging.info(f"creating text using the following prompt: {repr(prompt)}")
+    result = await create_text(prompt=prompt)
+    return result
