@@ -73,4 +73,4 @@ async def create(
 ):
     logger.info(f"creating image using the following prompt: {repr(prompt)}")
     result = await text_to_speech(prompt=prompt, gender=gender, language_code=language_code.value)
-    return result
+    return {'result': result}

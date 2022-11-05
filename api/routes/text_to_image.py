@@ -26,7 +26,7 @@ async def dalle_create_image(*args, **kwargs):
         )
 
 @app.get('/text2image')
-async def text2image_route(prompt: str = '', count: int = 1, size: int = 1):
+async def create(prompt: str = '', count: int = 1, size: int = 1):
     logger.info(f'text to image using the following prompt: {repr(prompt)}')
     size = [
         '256x256',
@@ -38,4 +38,4 @@ async def text2image_route(prompt: str = '', count: int = 1, size: int = 1):
         size=size,
         n=count,
     )
-    return result
+    return {'result': list(map(lambda r: r['b64_json'], result['data']))}

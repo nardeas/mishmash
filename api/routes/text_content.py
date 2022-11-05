@@ -17,6 +17,7 @@ def strip_non_alnum_from_text(text):
     return text[first_alnum_character:].strip()
 
 
+@functools.lru_cache
 def generate_text_content(api_key, **kwargs):
     """
     Inlcude previous prompt input separeted by \n\n
@@ -63,4 +64,4 @@ async def create_text(*args, **kwargs):
 async def create(prompt: str = ""):
     logger.info(f"creating text using the following prompt: {repr(prompt)}")
     result = await create_text(prompt=prompt)
-    return result
+    return {'result': result}
