@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useGLTF } from '@react-three/drei';
-import { usePhoneModelColor } from './hooks';
+import { usePhoneModelEffects } from './hooks';
 import { Euler, Vector3 } from '@react-three/fiber';
 
 export default function PhoneModel({
@@ -17,7 +17,7 @@ export default function PhoneModel({
   const { materials } = gltf;
   const nodes = gltf.nodes as any;
 
-  usePhoneModelColor();
+  usePhoneModelEffects();
 
   return (
     <group ref={group} dispose={null}>

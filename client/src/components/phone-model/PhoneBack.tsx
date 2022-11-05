@@ -1,14 +1,14 @@
 import { spring } from 'remotion';
 import { interpolate, useCurrentFrame, useVideoConfig } from 'remotion';
 
-import { usePhoneModelColor } from './hooks';
+import { usePhoneModelEffects } from './hooks';
 import PhoneModel from './PhoneModel';
 
 export default function PhoneBack() {
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
 
-  usePhoneModelColor();
+  usePhoneModelEffects();
 
   const revealAnimation = spring({
     frame: frame - durationInFrames / 4 - 10,
