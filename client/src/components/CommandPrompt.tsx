@@ -182,15 +182,18 @@ export default function CommandPrompt() {
   async function handleSubmit(event: any) {
     event.preventDefault();
 
-    const [cmd, prompt] = value.split(':');
-    const command = commands.find((c) => c.match(cmd.toLowerCase()));
+    const [_cmd, prompt] = value.split(':');
+    const cmd = _cmd.trim().toLowerCase();
+    const command = commands.find((c) => c.match(cmd));
 
     if (command) {
       setLoading(true);
       const p = prompt ? prompt.trim().toLowerCase() : '';
       await command.action(p);
       setLoading(false);
-      player?.seekTo(0);
+      if (!['play', 'pause'].includes(cmd)) {
+        player?.seekTo(0);
+      }
     }
 
     setOpen(false);
