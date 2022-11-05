@@ -14,10 +14,10 @@ export default function VideoText() {
         fontSize: 32,
         fontWeight: 500,
         lineHeight: 1.3,
-        background: 'linear-gradient(to bottom, #ec17bb, #e09318)',
+        background: 'linear-gradient(rgb(23 236 198), rgb(24 112 224))',
+        whiteSpace: 'pre-wrap',
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
-        whiteSpace: 'pre-wrap',
       }}
     >
       {text.length > MAX_TEXT_LENGTH

@@ -158,10 +158,10 @@ export default function CommandPrompt() {
       action: async (prompt) => {
         if (prompt.includes('space gray')) {
           setBackColor('#364047');
-        } else if (prompt.includes('peach')) {
-          setBackColor('#ac700f');
-        } else if (prompt.includes('pink')) {
-          setBackColor('#9f2c84');
+        } else if (prompt.includes('blue')) {
+          setBackColor('#0776ad');
+        } else if (prompt.includes('green')) {
+          setBackColor('#045431');
         }
       },
     },
@@ -195,6 +195,7 @@ export default function CommandPrompt() {
       setLoading(false);
       if (!['play', 'pause'].includes(cmd)) {
         player?.seekTo(0);
+        player?.play();
       }
     }
 
