@@ -1,6 +1,6 @@
-# Mishmash
+![Mishmash banner](media/mishmash_banner.png)
 
-> ### Infinite digital content creation for everyone
+### Infinite digital content creation for everyone. [Video link!](https://vimeo.com/767690146)
 
 Digital content creation in today's world is more demanding than ever: content has to be novel, variable and targeted for a global audience.
 
@@ -16,27 +16,13 @@ The output is structured as reusable atomic components. This is possible because
 
 Forget what you used to think was possible! The paradigm has changed, forever.
 
-## Notes
+## Screenshots
 
-**Create a virtualenv with python >=3.10.1**
-```
-pyenv install 3.10.1
-pyenv virtualenv 3.10.1 <name of the virtualenv>
-```
-
-**Install project packages**
-```
-pip install -r requirements.txt
-pip install -e .
-```
-
-**Run api server**
-```
-OPENAI_KEY=<api key> GOOGLE_APPLICATION_CREDENTIALS=<path to file> uvicorn api:app --reload
-OPENAI_KEY=<api key> GOOGLE_APPLICATION_CREDENTIALS=<path to file> uvicorn api:app
-```
-
-**View api docs**
-```
-http://localhost:8000/docs
-``client_info
+![](media/1.png)
+![](media/2.png)
+![](media/3.png)
+![](media/4.png)
+![](media/5.png)
+![](media/6.png)
+![](media/7.png)
+![](media/8.png)
