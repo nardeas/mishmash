@@ -1,2 +1,3 @@
 fastapi[all]
 openai
+google-cloud-texttospeech
