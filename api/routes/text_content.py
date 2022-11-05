@@ -62,8 +62,8 @@ async def create_text(*args, **kwargs):
         )
 
 
-@app.get("/image")
-async def create_image_route(prompt: str = ""):
+@app.get("/textcontent")
+async def create(prompt: str = ""):
     logging.info(f"creating text using the following prompt: {repr(prompt)}")
     result = await create_text(prompt=prompt)
     return result
