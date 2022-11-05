@@ -18,6 +18,11 @@ pip install -e .
 
 **Run api server**
 ```
-OPENAI_KEY= uvicorn api:app --reload
-OPENAI_KEY= uvicorn api:app
+OPENAI_KEY=<api key> GOOGLE_APPLICATION_CREDENTIALS=<path to file> uvicorn api:app --reload
+OPENAI_KEY=<api key> GOOGLE_APPLICATION_CREDENTIALS=<path to file> uvicorn api:app
+```
+
+**View api docs**
+```
+http://localhost:8000/docs
 ```
