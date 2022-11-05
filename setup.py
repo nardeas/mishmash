@@ -7,7 +7,7 @@ setup(
     description='api package',
     author='Team Glados',
     author_email='andreas.urbanski@gmail.com',
-    python_requires='>=3.9.0',
+    python_requires='>=3.10.1',
     license='TBD',
     install_requires=[],
     classifiers=[
@@ -15,7 +15,7 @@ setup(
         'Private :: Do Not Upload to pypi server',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy'
     ]
