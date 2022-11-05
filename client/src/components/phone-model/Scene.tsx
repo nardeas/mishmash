@@ -81,7 +81,9 @@ export default function Scene() {
         </AbsoluteFill>
       </Sequence>
 
-      {audio !== null && frame > 30 && <Audio src={audio.base64} />}
+      <Sequence from={30}>
+        {audio !== null && <Audio src={audio.base64} />}
+      </Sequence>
     </AbsoluteFill>
   );
 }
