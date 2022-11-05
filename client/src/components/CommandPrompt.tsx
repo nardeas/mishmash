@@ -26,7 +26,9 @@ export default function CommandPrompt() {
     // - match template in cmd
     {
       match: (cmd) => cmd.includes('template'),
-      action: async () => setReady(),
+      action: async () => {
+        setReady();
+      },
     },
     // Create <adjective / None> text: <prompt>
     // ⁃ create text. Match when cmd contains text
@@ -58,13 +60,17 @@ export default function CommandPrompt() {
     // - create audio track: match when cmd contains voice
     {
       match: (cmd) => cmd.includes('voice'),
-      action: async (prompt) => console.log('> Create voice-over', prompt),
+      action: async (prompt) => {
+        console.log('> Create voice-over', prompt);
+      },
     },
     // Translate: <language>
     // - translate text and audio. Match when cmd contains translate
     {
       match: (cmd) => cmd.includes('translate'),
-      action: async (prompt) => console.log('> Translate', prompt),
+      action: async (prompt) => {
+        console.log('> Translate', prompt);
+      },
     },
     // Clear: text
     // ⁃ remove text and audio track
@@ -80,7 +86,9 @@ export default function CommandPrompt() {
     // ⁃ delete all content
     {
       match: (cmd) => cmd.includes('delete'),
-      action: async (prompt) => console.log('> Delete all content', prompt),
+      action: async (prompt) => {
+        console.log('> Delete all content', prompt);
+      },
     },
     // Set color: <text>
     // ⁃ change color of the phone: match cmd with color and select color based on apple or coke
@@ -121,7 +129,8 @@ export default function CommandPrompt() {
 
     if (command) {
       setLoading(true);
-      await command.action(prompt.toLowerCase());
+      const p = prompt ? prompt.trim().toLowerCase() : '';
+      await command.action(p);
       setLoading(false);
     }
 
