@@ -67,7 +67,7 @@ export default function CommandPrompt() {
           ${text}
 
           ${prompt}
-
+          
         `;
 
           const { result } = await api.getTextContent({ prompt: fullPrompt });
