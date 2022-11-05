@@ -13,11 +13,9 @@ type PhoneModelStore = {
   setBackColor: (color: string) => void;
   setWallpaper: (wallpaper: string) => void;
   setText: (text: string) => void;
-  setAudio: (audio: {
-    base64: string;
-    gender: string;
-    language: string;
-  }) => void;
+  setAudio: (
+    audio: null | { base64: string; gender: string; language: string },
+  ) => void;
   setLoading: (loading: boolean) => void;
   setPlayer: (player: PlayerRef) => void;
   clear: () => void;

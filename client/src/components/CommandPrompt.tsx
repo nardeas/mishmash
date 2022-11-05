@@ -89,6 +89,8 @@ export default function CommandPrompt() {
                   language,
                 });
               });
+          } else {
+            setAudio(null);
           }
         }
       },
