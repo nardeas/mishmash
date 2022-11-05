@@ -18,6 +18,6 @@ pip install -e .
 
 **Run api server**
 ```
-OPENAPI_KEY= uvicorn api:app --reload
-OPENAPI_KEY= uvicorn api:app
+OPENAI_KEY= uvicorn api:app --reload
+OPENAI_KEY= uvicorn api:app
 ```
